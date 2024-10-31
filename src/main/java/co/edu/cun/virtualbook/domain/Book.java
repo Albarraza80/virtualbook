@@ -9,6 +9,7 @@ public class Book{
         this.id = id;
         this.title = title;
         this.genre = genre;
+        //Agregar las propiedades restantes al libro
     }
 
     public Book(){

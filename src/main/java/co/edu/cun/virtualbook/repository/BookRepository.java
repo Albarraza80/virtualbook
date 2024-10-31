@@ -21,8 +21,10 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     @Override
     public Book create( Book book )
         throws SQLException{
+        //TODO: agregar las propiedades nuevas a la query
         String query = "INSERT INTO book (title, genre) VALUES (?, ?)";
         PreparedStatement stmt = connection.prepareStatement( query, PreparedStatement.RETURN_GENERATED_KEYS );
+        //TODO: agregar propiedades
         stmt.setString( 1, book.getTitle() );
         stmt.setString( 2, book.getGenre() );
         stmt.executeUpdate();
@@ -40,7 +42,7 @@ public class BookRepository implements GenericRepository<Book, Integer>{
         Statement stmt = connection.createStatement();
         ResultSet result = stmt.executeQuery( query );
         List<Book> books = new ArrayList<>();
-        while(result.next()){
+        while( result.next() ){
             Book book = new Book();
             book.setId( result.getInt( "id" ) );
             book.setTitle( result.getString( "title" ) );
@@ -54,18 +56,15 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     @Override
     public Book update( Book book )
         throws SQLException{
-            String query = "UPDATE book SET title = ?, genre = ? WHERE id = ?";
-            PreparedStatement stmt = connection.prepareStatement( query );
-            stmt.setString( 1, book.getTitle() );
-            stmt.setString( 2, book.getGenre() );
-            stmt.setInt( 3, book.getId() );
-            stmt.executeUpdate();
-            ResultSet result = stmt.getGeneratedKeys();
-            if( result.next() ){
-                book.setId( result.getInt( 1 ) );
-            }
+        String query = "UPDATE book SET title = ?, genre = ? WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement( query );
+        //TODO: agragar las propiedades a la query
+        stmt.setString( 1, book.getTitle() );
+        stmt.setString( 2, book.getGenre() );
+        stmt.setInt( 3, book.getId() );
+        stmt.executeUpdate();
 
-        return null;
+        return book;
     }
 
     @Override
@@ -75,5 +74,22 @@ public class BookRepository implements GenericRepository<Book, Integer>{
         PreparedStatement stmt = connection.prepareStatement( query );
         stmt.setInt( 1, id );
         stmt.executeUpdate();
+    }
+
+    public Book findById( Integer id )
+        throws SQLException{
+        String query = "SELECT * FROM book WHERE id = ?";
+        PreparedStatement stmt = connection.prepareStatement( query );
+        stmt.setInt( 1, id );
+        ResultSet result = stmt.executeQuery();
+        if( result.next() ){
+            Book book = new Book();
+            book.setId( result.getInt( "id" ) );
+            book.setGenre( result.getString( "genre" ) );
+            book.setTitle( result.getString( "title" ) );
+            return book;
+
+        }
+        return null;
     }
 }
