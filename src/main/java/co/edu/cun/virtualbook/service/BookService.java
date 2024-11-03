@@ -15,40 +15,46 @@ public class BookService{
         this.bookRepository = new BookRepository();
     }
 
-    //TODO: recibir las demas propiedades
-    public Book createBook( String title, String genre )
-        throws SQLException{
+    public Book createBook(
+        String title,
+        String genre,
+        String editorial,
+        Integer publicYear,
+        Integer numPages 
+    ) throws SQLException {
         Book book = new Book();
+        
         book.setTitle( title );
         book.setGenre( genre );
-        book.setPages( 500 );
-        book.setPublicYear( 1950 );
-        book.setEditorial( "Norma" );
-
+        book.setPages( numPages );
+        book.setPublicYear( publicYear );
+        book.setEditorial( editorial );
 
         return bookRepository.create( book );
-
     }
 
-    public List<Book> findAll()
-        throws SQLException{
+    public List<Book> findAll() throws SQLException {
         return bookRepository.getAll();
     }
 
-    //TODO: recibir las demas propiedades
-    public Book update( String title, String genre, Integer id )
-        throws SQLException{
+    public Book update( 
+        Integer id,
+        String title, 
+        String genre, 
+        String editorial,
+        Integer publicYear,
+        Integer numPages
+    ) throws SQLException{
         Book book = bookRepository.findById( id );
-        if( book != null ){
-            //TODO: aqui tambien
+        if( book != null ) {
             book.setTitle( title );
             book.setGenre( genre );
-            book.setPages( 250 );
-            book.setPublicYear( 1952 );
-            book.setEditorial( "Planeta" );
+            book.setPages( numPages );
+            book.setPublicYear( publicYear );
+            book.setEditorial( editorial );
             bookRepository.update( book );
+            System.out.println("Libro actualizado");
         }
-        System.out.println("Libro actualizado");
         return book;
     }
 
