@@ -1,9 +1,6 @@
 package co.edu.cun.virtualbook.domain;
 
-public class Author {
-    
-    private String name;
-    private String lastname;
-    private Integer brithYear;
-
+public record Author ( String name,
+                       String lastname,
+                       Integer brithYear ){
 }
