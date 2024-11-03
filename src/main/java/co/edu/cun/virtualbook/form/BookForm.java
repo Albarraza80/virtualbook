@@ -248,10 +248,7 @@ public class BookForm extends javax.swing.JFrame {
                books.get(i).getPublicYear(),
             });                 
         }
-            
 
-    
-            
         } catch (IOException ex) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
