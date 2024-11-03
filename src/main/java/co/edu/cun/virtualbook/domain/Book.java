@@ -2,6 +2,12 @@ package co.edu.cun.virtualbook.domain;
 
 import java.util.List;
 
+/*Limpiar el formulario 
+  quitar las filas vacias 
+    agregar el boton de borrar
+    
+*/
+
 public class Book{
     private int id;
     private String title;

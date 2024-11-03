@@ -20,7 +20,7 @@ public class BookRepository implements GenericRepository<Book, Integer>{
 
     @Override
     public Book create( Book book ) throws SQLException {
-        String query = "INSERT INTO book (title, genre, pages, publicYear, editorial ) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO book (title, genre, pages, public_year, editorial ) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement( query, PreparedStatement.RETURN_GENERATED_KEYS );
         
         stmt.setString( 1, book.getTitle() );
