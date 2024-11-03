@@ -19,49 +19,53 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     }
 
     @Override
-    public Book create( Book book )
-        throws SQLException{
-        //TODO: agregar las propiedades nuevas a la query
+    public Book create( Book book ) throws SQLException {
         String query = "INSERT INTO book (title, genre, pages, publicYear, editorial ) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement( query, PreparedStatement.RETURN_GENERATED_KEYS );
-        //TODO: agregar propiedades
+        
         stmt.setString( 1, book.getTitle() );
         stmt.setString( 2, book.getGenre() );
         stmt.setInt( 3, book.getPages() );
         stmt.setInt( 4, book.getPublicYear() );
         stmt.setString( 5, book.getEditorial() );
+        
         stmt.executeUpdate();
         ResultSet result = stmt.getGeneratedKeys();
+        
         if( result.next() ){
             book.setId( result.getInt( 1 ) );
         }
+        
         return book;
     }
 
     @Override
-    public List<Book> getAll()
-        throws SQLException{
+    public List<Book> getAll() throws SQLException {
         String query = "SELECT * FROM book";
         Statement stmt = connection.createStatement();
+        
         ResultSet result = stmt.executeQuery( query );
         List<Book> books = new ArrayList<>();
+        
         while( result.next() ){
             Book book = new Book();
             book.setId( result.getInt( "id" ) );
             book.setTitle( result.getString( "title" ) );
             book.setGenre( result.getString( "genre" ) );
+            book.setPages( result.getInt( "pages" ) );
+            book.setPublicYear( result.getInt( "public_year" ) );
+            book.setEditorial( result.getString( "editorial" ) );
             books.add( book );
-
         }
+        
         return books;
     }
 
     @Override
-    public Book update( Book book )
-        throws SQLException{
+    public Book update( Book book ) throws SQLException {
         String query = "UPDATE book SET title = ?, genre = ?, pages = ?, publicYear = ?, editorial = ? WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement( query );
-        //TODO: agragar las propiedades a la query
+        
         stmt.setString( 1, book.getTitle() );
         stmt.setString( 2, book.getGenre() );
         stmt.setInt( 3, book.getPages() );
@@ -75,7 +79,7 @@ public class BookRepository implements GenericRepository<Book, Integer>{
 
     @Override
     public void delete( Integer id )
-        throws SQLException{
+        throws SQLException {
         String query = "DELETE FROM book WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement( query );
         stmt.setInt( 1, id );
@@ -83,19 +87,25 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     }
 
     public Book findById( Integer id )
-        throws SQLException{
+        throws SQLException {
         String query = "SELECT * FROM book WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement( query );
         stmt.setInt( 1, id );
         ResultSet result = stmt.executeQuery();
-        if( result.next() ){
+            
+        if( result.next() ) {
+            
             Book book = new Book();
             book.setId( result.getInt( "id" ) );
-            book.setGenre( result.getString( "genre" ) );
             book.setTitle( result.getString( "title" ) );
+            book.setGenre( result.getString( "genre" ) );
+            book.setPages( result.getInt( "pages" ) );
+            book.setPublicYear( result.getInt( "public_year" ) );
+            book.setEditorial( result.getString( "editorial" ) );
+            
             return book;
-
         }
+            
         return null;
     }
 }
