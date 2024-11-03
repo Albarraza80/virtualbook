@@ -10,6 +10,6 @@ public class Main{
     public static void main( String[] args )
         throws IOException, SQLException{
         BookService bookService = new BookService();
-        bookService.delete(  1 );
+        bookService.delete( 2 );
     }
 }

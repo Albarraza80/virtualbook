@@ -14,12 +14,17 @@ public class BookService{
         throws IOException{
         this.bookRepository = new BookRepository();
     }
+
     //TODO: recibir las demas propiedades
-    public Book createBook( String title, String genre)
+    public Book createBook( String title, String genre )
         throws SQLException{
         Book book = new Book();
         book.setTitle( title );
         book.setGenre( genre );
+        book.setPages( 500 );
+        book.setPublicYear( 1950 );
+        book.setEditorial( "Norma" );
+
 
         return bookRepository.create( book );
 
@@ -29,25 +34,30 @@ public class BookService{
         throws SQLException{
         return bookRepository.getAll();
     }
+
     //TODO: recibir las demas propiedades
-    public Book update(String title, String genre, Integer id)
+    public Book update( String title, String genre, Integer id )
         throws SQLException{
         Book book = bookRepository.findById( id );
-        if(book != null){
+        if( book != null ){
             //TODO: aqui tambien
             book.setTitle( title );
             book.setGenre( genre );
+            book.setPages( 250 );
+            book.setPublicYear( 1952 );
+            book.setEditorial( "Planeta" );
             bookRepository.update( book );
         }
+        System.out.println("Libro actualizado");
         return book;
     }
 
-    public void delete(Integer id)
+    public void delete( Integer id )
         throws SQLException{
         Book book = bookRepository.findById( id );
-        if(book != null){
+        if( book != null ){
             bookRepository.delete( id );
         }
-        System.out.println("Libro Borrado");
+        System.out.println( "Libro Borrado" );
     }
 }

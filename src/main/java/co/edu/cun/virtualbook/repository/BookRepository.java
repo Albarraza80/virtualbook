@@ -22,11 +22,14 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     public Book create( Book book )
         throws SQLException{
         //TODO: agregar las propiedades nuevas a la query
-        String query = "INSERT INTO book (title, genre) VALUES (?, ?)";
+        String query = "INSERT INTO book (title, genre, pages, publicYear, editorial ) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement( query, PreparedStatement.RETURN_GENERATED_KEYS );
         //TODO: agregar propiedades
         stmt.setString( 1, book.getTitle() );
         stmt.setString( 2, book.getGenre() );
+        stmt.setInt( 3, book.getPages() );
+        stmt.setInt( 4, book.getPublicYear() );
+        stmt.setString( 5, book.getEditorial() );
         stmt.executeUpdate();
         ResultSet result = stmt.getGeneratedKeys();
         if( result.next() ){
@@ -56,12 +59,15 @@ public class BookRepository implements GenericRepository<Book, Integer>{
     @Override
     public Book update( Book book )
         throws SQLException{
-        String query = "UPDATE book SET title = ?, genre = ? WHERE id = ?";
+        String query = "UPDATE book SET title = ?, genre = ?, pages = ?, publicYear = ?, editorial = ? WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement( query );
         //TODO: agragar las propiedades a la query
         stmt.setString( 1, book.getTitle() );
         stmt.setString( 2, book.getGenre() );
-        stmt.setInt( 3, book.getId() );
+        stmt.setInt( 3, book.getPages() );
+        stmt.setInt( 4, book.getPublicYear());
+        stmt.setString( 5, book.getEditorial() );
+        stmt.setInt( 6, book.getId() );
         stmt.executeUpdate();
 
         return book;
