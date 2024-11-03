@@ -2,14 +2,12 @@ package co.edu.cun.virtualbook.service;
 
 import co.edu.cun.virtualbook.domain.Book;
 import co.edu.cun.virtualbook.repository.BookRepository;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
 public class BookService{
     private BookRepository bookRepository;
-    private Book book;
 
     public BookService()
         throws IOException{
@@ -21,43 +19,40 @@ public class BookService{
         String genre,
         String editorial,
         Integer publicYear,
-        Integer numPages
-    )
-        throws SQLException{
-        //Book book = new Book();
-
-        book.title();
-        book.genre();
-        book.pages();
-        book.publicYear();
-        book.editorial();
+        Integer numPages 
+    ) throws SQLException {
+        Book book = new Book();
+        
+        book.setTitle( title );
+        book.setGenre( genre );
+        book.setPages( numPages );
+        book.setPublicYear( publicYear );
+        book.setEditorial( editorial );
 
         return bookRepository.create( book );
     }
 
-    public List<Book> findAll()
-        throws SQLException{
+    public List<Book> findAll() throws SQLException {
         return bookRepository.getAll();
     }
 
-    public Book update(
+    public Book update( 
         Integer id,
-        String title,
-        String genre,
+        String title, 
+        String genre, 
         String editorial,
         Integer publicYear,
         Integer numPages
-    )
-        throws SQLException{
+    ) throws SQLException{
         Book book = bookRepository.findById( id );
-        if( book != null ){
-            book.title();
-            book.genre();
-            book.pages();
-            book.publicYear();
-            book.editorial();
+        if( book != null ) {
+            book.setTitle( title );
+            book.setGenre( genre );
+            book.setPages( numPages );
+            book.setPublicYear( publicYear );
+            book.setEditorial( editorial );
             bookRepository.update( book );
-            System.out.println( "Libro actualizado" );
+            System.out.println("Libro actualizado");
         }
         return book;
     }
