@@ -82,12 +82,13 @@ public class BookRepository implements GenericRepository<Book, Integer> {
             int authorId = result.getInt("author_id");
             if (authorId > 0) { // Verificamos si hay un autor
                 Author author = new Author(
+                        result.getInt("author_id"),
                         result.getString("author_name"),
                         result.getString("author_lastname"),
-                        result.getInt("birth_year"),
-                        result.getString("nationality"),
-                        result.getString("biography"),
-                        result.getString("birth_place")
+                        null,
+                        null,
+                        null,
+                        null
                 );
                 book.addAuthor(author);
             }
