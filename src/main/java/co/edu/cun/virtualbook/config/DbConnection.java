@@ -7,31 +7,40 @@ import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 
 public class DbConnection{
-    private Connection conenction;
+    private static DbConnection instance;
+    private Connection connection;
 
-    public DbConnection()
-        throws IOException{
+    private DbConnection() throws IOException {
         ApplicationConfig config = ApplicationConfig.getInstance();
         String url = config.getUrl();
         String username = config.getUser();
         String password = config.getPassword();
-        try{
-            this.conenction = DriverManager.getConnection( url, username, password );
+        try {
+            this.connection = DriverManager.getConnection(url, username, password);
             System.out.println("Conexión exitosa");
-
-        }catch( SQLException e ){
-            System.out.println("Error de conexion con la base de datos " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error de conexión con la base de datos: " + e.getMessage());
         }
     }
 
-    public Connection getConnection(){
-        return this.conenction;
+    public static DbConnection getInstance() throws IOException {
+        if (instance == null) {
+            synchronized (DbConnection.class) { // Añadimos sincronización para seguridad en entornos multi-hilo
+                if (instance == null) {
+                    instance = new DbConnection();
+                }
+            }
+        }
+        return instance;
     }
 
-    public void closeConnection()
-        throws SQLException{
-        if( this.conenction != null){
-            this.conenction.close();
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+    public void closeConnection() throws SQLException {
+        if (this.connection != null) {
+            this.connection.close();
         }
     }
 }
