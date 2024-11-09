@@ -49,7 +49,7 @@ public class Main {
                 return false;  // Ninguna celda será editable
             }
         };
-        
+
         model.addColumn("ID");
         model.addColumn("Title");
         model.addColumn("Genre");
@@ -162,6 +162,11 @@ public class Main {
             bookName.requestFocus();
             return false;
         }
+        if (genreList.getSelectedItem() == null || genreList.getSelectedItem().toString().equals("Select a genre")) {
+            JOptionPane.showMessageDialog(mainPanel, "Please select a genre.");
+            genreList.requestFocus();
+            return false;
+        }
         if (totalPagesField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(mainPanel, "Please enter the total pages.");
             totalPagesField.requestFocus();
@@ -172,19 +177,14 @@ public class Main {
             editorialField.requestFocus();
             return false;
         }
+        if (authorList.getSelectedItem() == null || authorList.getSelectedItem().toString().equals("Select an author")) {
+            JOptionPane.showMessageDialog(mainPanel, "Please select an author.");
+            authorList.requestFocus();
+            return false;
+        }
         if (publicYearField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(mainPanel, "Please enter the publication year.");
             publicYearField.requestFocus();
-            return false;
-        }
-        if (genreList.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(mainPanel, "Please select a genre.");
-            genreList.requestFocus();
-            return false;
-        }
-        if (authorList.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(mainPanel, "Please select an author.");
-            authorList.requestFocus();
             return false;
         }
         return true;
@@ -195,6 +195,7 @@ public class Main {
         List<Author> authors = authorService.findAll();
 
         // Agregar cada autor al JComboBox
+        authorList.addItem("Select an author");
         for (Author author : authors) {
             authorList.addItem(author.getId() + " - " +author.getName() + " " + author.getLastname());
         }
@@ -205,6 +206,7 @@ public class Main {
         List<Category> categories = categoryService.findAll();
 
         // Agregar cada categoría al JComboBox
+        genreList.addItem("Select a genre");
         for (Category category : categories) {
             genreList.addItem(category.getName());  // Suponiendo que getName() devuelve el nombre de la categoría
         }
